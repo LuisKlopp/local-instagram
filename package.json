@@ -7,6 +7,9 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^0.27.2",
+    "concurrently": "^7.3.0",
+    "json-server": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -17,7 +20,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mockserver": "npx json-server --watch --delay 500 --port 3001 db.json",
+    "liverpool": "concurrently \"yarn start\" \"yarn mockserver\""
   },
   "eslintConfig": {
     "extends": [
