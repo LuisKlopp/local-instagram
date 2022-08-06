@@ -1,10 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNumber, minusNumber, __addNumber} from "./store";
+import { addNumber, minusNumber, __addNumber, __getTodos} from "./store";
+import { useEffect } from "react";
+
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isLoading, error, todos } = useSelector((state) => state.todos);
+
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [dispatch]);
+
   const [number, setNumber] = useState(0);
   const globalNumber = useSelector((state) => state.counter.number);
 
@@ -23,6 +31,13 @@ const App = () => {
     dispatch(minusNumber(number));
   };
 
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+  
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
 
   return (
@@ -31,6 +46,12 @@ const App = () => {
       <input type="number" onChange={onChangeHandler} />
       <button onClick={onClickAddNumberHandler}>더하기</button>
       <button onClick={onClickMinusNumberHandler}>빼기</button>
+
+      <div>
+      {todos.map((todo) => (
+        <div kye={todo.id}>{todo.content}</div>
+      ))}
+    </div>
     </div>
   );
 };
