@@ -1,19 +1,38 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit"
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const helloRedux = createSlice({
-	name: 'helloRedux',
-	initialState: ['야호'],              // initialState = state (= ['야호'])
-	reducers: {
-					hello(state, action) { 
-							state.push(action.payload)			
-					 },
-			}
-})
+const initialState = {
+  number: 0,
+};
 
-export let { hello } = helloRedux.actions
+
+export const __addNumber = createAsyncThunk(
+	"ADD_NUMBER_WAIT",
+	(args, thunkAPI)=>{
+		setTimeout(() => {
+      thunkAPI.dispatch(addNumber(args));
+    }, 3000);
+	},
+);
+
+export const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    addNumber: (state, action) => {
+      state.number = state.number + action.payload;
+    },
+
+    minusNumber: (state, action) => {
+      state.number = state.number - action.payload;
+    },
+  },
+});
+
+export const { addNumber, minusNumber } = counterSlice.actions;
 
 export default configureStore({
 	reducer: {
-			helloRedux : helloRedux.reducer 
+		counter: counterSlice.reducer,
 	}
 })
