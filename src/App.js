@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Main from "./components/Main"
 import ThunkTest from "./components/ThunkTest"
+import Post from "./components/Post"
+import Detail from "./components/Detail"
 import { Routes, Route, Link, Redirect } from 'react-router-dom'
 
 
@@ -15,6 +17,8 @@ const App = () => {
     <Routes>
       <Route path="/routes" element={<ThunkTest/>}/>
       <Route path="/" element={<Main/>}/>
+      <Route path="/detail/:id" element={<Detail/>}/>
+      <Route path="/post" element={<Post/>}/>
     </Routes>
     </>
   );

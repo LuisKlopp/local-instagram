@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNumber, minusNumber, __addNumber, __getTodos } from "../store";
 import { useEffect } from "react";
 import styled from "styled-components"
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+
 
 
 
 
 const Card = ({todo}) => {
   
-  
+  const navigate = useNavigate();
+
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   console.log(todos)
 
@@ -23,7 +26,7 @@ const Card = ({todo}) => {
       <StButton style={{backgroundColor:"red"}}></StButton>
       <StButton></StButton>
       </StCardHeader>
-      <StImg todoc={todo.url}>
+      <StImg onClick={() => {navigate("/detail/" + todo.id)}} todoc={todo.url}>
 
       </StImg>
     </StCard>
@@ -83,4 +86,6 @@ const StImg = styled.div`
   background-image: url(${props => props.todoc});
 	background-repeat: no-repeat;
 	background-size: cover;
+  cursor:pointer;
+
 `

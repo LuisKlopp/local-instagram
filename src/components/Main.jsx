@@ -1,11 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import styled from "styled-components"
 import { createGlobalStyle } from 'styled-components'
 import Card from "./Card"
-import { addNumber, minusNumber, __addNumber, __getTodos } from "../store";
+import { __addNumber, __getTodos } from "../store";
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 
 
 
@@ -17,6 +16,7 @@ const Main = () => {
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   const globalNumber = useSelector((state) => state.counter.number);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -27,9 +27,9 @@ const Main = () => {
     <>
     <GlobalStyle/>
     <StHeader>
-      <StSpan>Logo</StSpan>
+      <StButton onClick={() => {navigate("/")}}>Logo</StButton>
 
-      <StSpan>Post</StSpan>
+      <StButton onClick={() => {navigate("/post")}}>Post</StButton>
 
     </StHeader>
     <StMainList>
@@ -69,12 +69,17 @@ const StHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
+
 `
 
-const StSpan = styled.span`
+const StButton = styled.button`
   font-size:20px;
   font-weight: 600;
-  padding: 0px 50px 0px 50px;
+  padding: 0px 30px 0px 30px;
+  background-color: white;
+  width:10%;
+  border:none;
+  cursor: pointer;
 `
 
 const StMainList = styled.div`
