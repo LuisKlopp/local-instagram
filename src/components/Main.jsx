@@ -14,13 +14,13 @@ const Main = () => {
 
 
   const { isLoading, error, todos } = useSelector((state) => state.todos);
-  const globalNumber = useSelector((state) => state.counter.number);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
 
   useEffect(() => {
     dispatch(__getTodos());
+    console.log(todos)
   }, [dispatch]);
 
   return (
@@ -28,15 +28,12 @@ const Main = () => {
     <GlobalStyle/>
     <StHeader>
       <StButton onClick={() => {navigate("/")}}>Logo</StButton>
-
       <StButton onClick={() => {navigate("/post")}}>Post</StButton>
-
     </StHeader>
     <StMainList>
     {todos.map((todo) => (
           <Card todo={todo} key={todo.id}/>
         ))}
-
     </StMainList>
     </>
   );

@@ -15,7 +15,7 @@ const Card = ({todo}) => {
   const navigate = useNavigate();
 
   const { isLoading, error, todos } = useSelector((state) => state.todos);
-  console.log(todos)
+  // console.log(todos)
 
   return (
     <>

@@ -17,10 +17,15 @@ const Post = () => {
   const navigate = useNavigate();
   const logoImgInput = useRef();
 
+  const [fileImage, setFileImage] = useState("");
   const [state, setState] = useReducer(reducer, {
     title: "",
     content: "",
   });
+
+  const saveFileImage = (e) => {
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+  };
 
   const { title, content } = state;
 
@@ -28,11 +33,13 @@ const Post = () => {
     setState(e.target);
   };
 
-  const onSubmitHandler = (title, content) => {
+  const onSubmitHandler = (title, content, fileImage) => {
     const obj = {
       title: title,
       content: content,
+      url: fileImage,
     };
+
     axios.post("http://localhost:3001/todos", obj);
   };
 
@@ -50,7 +57,7 @@ const Post = () => {
         </StSpan>
       </StHeader>
       <StPostList>
-        <StImageDiv />
+        <StImgBox alt="이미지 업로드하세요~" src={fileImage} style={{ margin: "auto" }} />
         <StDiv>
           <StSpan>Title</StSpan>
           <StInput
@@ -66,32 +73,31 @@ const Post = () => {
           ></StTextarea>
         </StDiv>
 
-
         <StButtonDiv>
+          <StButton
+            onClick={() => {
+              logoImgInput.current.click();
+            }}
+          >
+            이미지 첨부하기
+          </StButton>
+          <StButton
+            onClick={() => {
+              if (title !== "" && content !== "") {
+                onSubmitHandler(title, content, fileImage);
+              }
+            }}
+          >
+            제출
+          </StButton>
 
-        <StButton
-          onClick={() => {
-            logoImgInput.current.click();
-          }}
-        >
-          이미지 첨부하기
-        </StButton>
-        <StButton
-          onClick={() => {
-            if (title !== "" && content !== "") {
-              onSubmitHandler(title, content);
-            }
-          }}
-        >
-          제출
-        </StButton>
-
-        <StImageInput
-          type="file"
-          accept="image/*"
-          name="file"
-          ref={logoImgInput}
-        ></StImageInput>
+          <StImageInput
+            type="file"
+            accept="image/*"
+            name="file"
+            ref={logoImgInput}
+            onChange={saveFileImage}
+          ></StImageInput>
         </StButtonDiv>
       </StPostList>
     </>
@@ -142,7 +148,7 @@ const StPostList = styled.div`
   position: relative;
 `;
 
-const StImageDiv = styled.div`
+const StImgBox = styled.img`
   width: 50%;
   height: 50%;
   border: 1px solid black;
@@ -183,12 +189,12 @@ const StImageInput = styled.input`
   display: none;
 `;
 
-const StButtonDiv =styled.div`
-  width:100%;
-  height:50px;
-  border:1px solid black;
-  position:absolute;
-  bottom:0;
+const StButtonDiv = styled.div`
+  width: 100%;
+  height: 50px;
+  border: 1px solid black;
+  position: absolute;
+  bottom: 0;
   display: flex;
   justify-content: space-around;
-`
+`;
