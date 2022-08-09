@@ -6,6 +6,7 @@ import Main from "./components/Main"
 import ThunkTest from "./components/ThunkTest"
 import Post from "./components/Post"
 import Detail from "./components/Detail"
+import Update from "./components/Update"
 import { Routes, Route, Link, Redirect } from 'react-router-dom'
 
 
@@ -19,6 +20,7 @@ const App = () => {
       <Route path="/" element={<Main/>}/>
       <Route path="/detail/:id" element={<Detail/>}/>
       <Route path="/post" element={<Post/>}/>
+      <Route path="/update/:id" element={<Update/>}/>
     </Routes>
     </>
   );

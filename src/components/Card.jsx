@@ -5,17 +5,26 @@ import { addNumber, minusNumber, __addNumber, __getTodos } from "../store";
 import { useEffect } from "react";
 import styled from "styled-components"
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-
+import axios from "axios"
 
 
 
 
 const Card = ({todo}) => {
   
+
+  
+  const [todo_arr, setTodos] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   const { isLoading, error, todos } = useSelector((state) => state.todos);
-  // console.log(todos)
+
+  const onClickDeleteButtonHandler = (todoId) => {
+    axios.delete(`http://localhost:3001/todos/${todoId}`);
+    dispatch(__getTodos());
+  };
 
   return (
     <>
@@ -23,8 +32,12 @@ const Card = ({todo}) => {
     <StCard>
       <StCardHeader>
       <StSpan>{todo.title}</StSpan>
-      <StButton style={{backgroundColor:"red"}}></StButton>
-      <StButton></StButton>
+      <StButton style={{backgroundColor:"red"}} onClick={() => {
+        onClickDeleteButtonHandler(todo.id);
+        }}></StButton>
+      <StButton onClick={() => {
+        navigate("/update/" + todo.id)
+      }}></StButton>
       </StCardHeader>
       <StImg onClick={() => {navigate("/detail/" + todo.id)}} todoc={todo.url}>
 

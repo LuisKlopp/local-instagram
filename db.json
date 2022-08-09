@@ -1,28 +1,10 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "타이틀 테스트",
-      "content": "json-server를 배워봅시다1.",
-      "url": "http://www.footballist.co.kr/news/photo/202207/153101_79829_543.jpg"
-    },
-    {
-      "id": 2,
-      "title": "2판4판 가즈아",
-      "content": "json-server를 배워봅시다2.",
-      "url": "https://cdn.mhnse.com/news/photo/202207/128045_118780_3246.jpg"
-    },
-    {
-      "title": "ㅁㄴㅇㄹㄴㅇㅁㄹㄴㅇ",
-      "content": "ㄹㄴㅁㅇㄻㄴㅇㄹㅇㄴㄾㅊㅋㅍㅌㅊㅍㅌㅊㄹㅇㄴㄹㄴㅁㄹㄴㅇ",
-      "url": "blob:http://localhost:3000/f41f6d51-e5d2-4aa0-bfac-4d66a9e3b030",
-      "id": 3
-    },
-    {
-      "title": "ㄹㅇㄴ",
-      "content": "ㄹㅇㄴㄹㄴㅇ",
-      "url": "blob:http://localhost:3000/312efdad-d003-40f2-80c0-1873e2d15c89",
-      "id": 4
+      "title": "ㄹㅇㄴㅁ",
+      "content": "ㄹㅇㅁㄴㄹㅇㄴㅁㄻㅇㄴ",
+      "url": "blob:http://localhost:3000/f17e4655-6d36-4e8e-a2e3-435a00a47786",
+      "id": 1
     }
   ]
 }

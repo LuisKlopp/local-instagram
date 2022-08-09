@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import { __addNumber, __getTodos } from "../store";
-import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, Outlet, useParams } from "react-router-dom";
 import axios from "axios";
 
 const reducer = (state, action) => {
@@ -13,9 +13,11 @@ const reducer = (state, action) => {
   };
 };
 
-const Post = () => {
+const Update = () => {
+  const { isLoading, error, todos } = useSelector((state) => state.todos);
   const navigate = useNavigate();
   const logoImgInput = useRef();
+  const { id } = useParams();
 
   const [fileImage, setFileImage] = useState("");
   const [state, setState] = useReducer(reducer, {
@@ -40,10 +42,12 @@ const Post = () => {
       content: content,
       url: fileImage,
     };
-    console.log(fileImage);
     axios.post("http://localhost:3001/todos", obj);
   };
 
+  const update_todo = todos.find((data) =>  data.id === Number(id))
+
+  console.log(update_todo)
   return (
     <>
       <GlobalStyle />
@@ -62,15 +66,15 @@ const Post = () => {
         <StDiv>
           <StSpan>Title</StSpan>
           <StInput
-            placeholder="타이틀을 입력하세요"
             name="title"
             onChange={onChange}
+            value={update_todo.title}
           ></StInput>
           <StSpan style={{ marginTop: "50px" }}>Content</StSpan>
           <StTextarea
-            placeholder="내용을 입력하세요"
             name="content"
             onChange={onChange}
+            value={update_todo.content}
           ></StTextarea>
         </StDiv>
 
@@ -106,7 +110,7 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Update;
 
 const GlobalStyle = createGlobalStyle`
   * {

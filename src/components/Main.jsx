@@ -5,7 +5,7 @@ import { createGlobalStyle } from 'styled-components'
 import Card from "./Card"
 import { __addNumber, __getTodos } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-
+import axios from "axios"
 
 
 
@@ -16,12 +16,20 @@ const Main = () => {
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [todo_arr, setTodos] = useState([]);
+
 
 
   useEffect(() => {
     dispatch(__getTodos());
+    fetchTodos();
     console.log(todos)
   }, [dispatch]);
+
+  const fetchTodos = async () => {
+    const { data } = await axios.get("http://localhost:3001/todos");
+    setTodos( data );
+  };
 
   return (
     <>
