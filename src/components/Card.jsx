@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNumber, minusNumber, __addNumber, __getTodos } from "../store";
+import { deleteList, __getTodos } from "../store";
 import { useEffect } from "react";
 import styled from "styled-components"
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
@@ -21,10 +21,10 @@ const Card = ({todo}) => {
 
   const { isLoading, error, todos } = useSelector((state) => state.todos);
 
-  const onClickDeleteButtonHandler = (todoId) => {
-    axios.delete(`http://localhost:3001/todos/${todoId}`);
-    dispatch(__getTodos());
+  const onClickDeleteButtonHandler = () => {
+    dispatch(deleteList(todo.id))
   };
+
 
   return (
     <>
@@ -33,14 +33,13 @@ const Card = ({todo}) => {
       <StCardHeader>
       <StSpan>{todo.title}</StSpan>
       <StButton style={{backgroundColor:"red"}} onClick={() => {
-        onClickDeleteButtonHandler(todo.id);
+        onClickDeleteButtonHandler();
         }}></StButton>
       <StButton onClick={() => {
         navigate("/update/" + todo.id)
       }}></StButton>
       </StCardHeader>
       <StImg onClick={() => {navigate("/detail/" + todo.id)}} todoc={todo.url}>
-
       </StImg>
     </StCard>
 

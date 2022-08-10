@@ -2,7 +2,7 @@ import React, { useEffect, useState, useReducer, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
-import { __addNumber, __getTodos } from "../store";
+import { __getTodos, addList } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios";
 
@@ -14,6 +14,7 @@ const reducer = (state, action) => {
 };
 
 const Post = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoImgInput = useRef();
 
@@ -22,26 +23,24 @@ const Post = () => {
     title: "",
     content: "",
   });
+  const onCreate = () => {
+    const newList = {
+      title,
+      content,
+      url:fileImage
+    };
+    dispatch(addList(newList))
+  };
 
   const saveFileImage = (e) => {
     setFileImage(URL.createObjectURL(e.target.files[0]));
-    
+    console.log(e.target.files[0]);
   };
 
   const { title, content } = state;
 
   const onChange = (e) => {
     setState(e.target);
-  };
-
-  const onSubmitHandler = (title, content, fileImage) => {
-    const obj = {
-      title: title,
-      content: content,
-      url: fileImage,
-    };
-    console.log(fileImage);
-    axios.post("http://localhost:3001/todos", obj);
   };
 
   return (
@@ -85,7 +84,7 @@ const Post = () => {
           <StButton
             onClick={() => {
               if (title !== "" && content !== "") {
-                onSubmitHandler(title, content, fileImage);
+                onCreate()
                 navigate("/");
               }
             }}

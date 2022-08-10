@@ -17,6 +17,7 @@ const Update = () => {
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   const navigate = useNavigate();
   const logoImgInput = useRef();
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   const [fileImage, setFileImage] = useState("");
@@ -24,6 +25,10 @@ const Update = () => {
     title: "",
     content: "",
   });
+
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [])
 
   const saveFileImage = (e) => {
     setFileImage(URL.createObjectURL(e.target.files[0]));
@@ -47,7 +52,15 @@ const Update = () => {
 
   const update_todo = todos.find((data) =>  data.id === Number(id))
 
-  console.log(update_todo)
+
+  if(todos.length === 0) {
+    return (
+      <StWrapper>
+        <h1>로딩중!</h1>
+      </StWrapper>
+    ) 
+  } else{
+
   return (
     <>
       <GlobalStyle />
@@ -109,7 +122,7 @@ const Update = () => {
     </>
   );
 };
-
+}
 export default Update;
 
 const GlobalStyle = createGlobalStyle`
@@ -204,3 +217,11 @@ const StButtonDiv = styled.div`
   display: flex;
   justify-content: space-around;
 `;
+
+const StWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  `;

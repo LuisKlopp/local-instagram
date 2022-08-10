@@ -1,48 +1,56 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from "react-router-dom";
 import axios from 'axios';
-import { useSelector, useDispatch } from "react-redux";
 import { __addNumber, __getTodos } from "../store";
+
 
 const Detail = () => {
 
+  const { isLoading, error, todos } = useSelector((state) => state.todos);
   const { id } = useParams();
   const navigate = useNavigate();
-  const [todo_arr, setTodos] = useState([]);
-
-  const fetchTodos = async () => {
-    const { data } = await axios.get("http://localhost:3001/todos");
-    setTodos( data );
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchTodos();
+    dispatch(__getTodos());
   }, [])
-  // let todos_1 = todo_state.find(data => data.id === Number(id));
-  let todos_1 = todo_arr.find(data => data.id === Number(id));
+
+
+
+
+  const current_obj = todos.find((data) => data.id === Number(id))
   
-  if (todo_arr.length !== 0) {
-    console.log(todo_arr)
-  return (
-    <>
-      <GlobalStyle />
+  if(todos.length === 0) {
+    return (
       <StWrapper>
-        <StItem>
-          <h1>{todos_1.title}</h1>
-          <h1>{todos_1.content}</h1>
-          <Stbutton
-            onClick={() => {navigate("/")
-            }}style={{ cursor: "pointer" }}>
-            메인으로
-          </Stbutton>
-        </StItem>
+        <h1>로딩중!</h1>
       </StWrapper>
-    </>
-  );
+    ) 
+  } else{
+    return (
+      <>
+        <GlobalStyle />
+        <StWrapper>
+          <StItem>
+            <h1>{current_obj.title}</h1>
+            <h1>{current_obj.content}</h1>
+            <Stbutton
+              onClick={() => {navigate("/")
+              }}style={{ cursor: "pointer" }}>
+              메인으로
+            </Stbutton>
+          </StItem>
+        </StWrapper>
+      </>
+    );
+    
+  }
+
+
           }
-};
 
 export default Detail;
 
