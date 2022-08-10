@@ -2,9 +2,8 @@ import React, { useEffect, useState, useReducer, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
-import { __addNumber, __getTodos } from "../store";
+import { __getTodos, updateList } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from "react-router-dom";
-import axios from "axios";
 
 const reducer = (state, action) => {
   return {
@@ -14,25 +13,27 @@ const reducer = (state, action) => {
 };
 
 const Update = () => {
+
+
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   const navigate = useNavigate();
   const logoImgInput = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const update_todo = todos.find((data) =>  data.id === Number(id))
+
+
 
   const [fileImage, setFileImage] = useState("");
   const [state, setState] = useReducer(reducer, {
-    title: "",
-    content: "",
+    title: update_todo.title,
+    content: update_todo.content,
   });
 
-  useEffect(() => {
-    dispatch(__getTodos());
-  }, [])
+
 
   const saveFileImage = (e) => {
     setFileImage(URL.createObjectURL(e.target.files[0]));
-    
   };
 
   const { title, content } = state;
@@ -41,17 +42,21 @@ const Update = () => {
     setState(e.target);
   };
 
-  const onSubmitHandler = (title, content, fileImage) => {
+  const onSubmitHandler = (title, content) => {
     const obj = {
       title: title,
       content: content,
-      url: fileImage,
     };
-    axios.post("http://localhost:3001/todos", obj);
+    dispatch(updateList({id, obj}))
   };
 
-  const update_todo = todos.find((data) =>  data.id === Number(id))
 
+  useEffect(() => {
+    console.log(todos)
+    dispatch(__getTodos());
+  }, [])
+  
+  
 
   if(todos.length === 0) {
     return (
@@ -81,13 +86,13 @@ const Update = () => {
           <StInput
             name="title"
             onChange={onChange}
-            value={update_todo.title}
+            value={state.title|| ''}
           ></StInput>
           <StSpan style={{ marginTop: "50px" }}>Content</StSpan>
           <StTextarea
             name="content"
             onChange={onChange}
-            value={update_todo.content}
+            value={state.content|| ''}
           ></StTextarea>
         </StDiv>
 
@@ -102,7 +107,7 @@ const Update = () => {
           <StButton
             onClick={() => {
               if (title !== "" && content !== "") {
-                onSubmitHandler(title, content, fileImage);
+                onSubmitHandler(state.title, state.content);
                 navigate("/");
               }
             }}

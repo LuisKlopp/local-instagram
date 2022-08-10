@@ -25,10 +25,10 @@ export const deleteList = createAsyncThunk("DELETE_TODO", async (id) => {
   return id;
 });
 
-// export const updateList = createAsyncThunk("UPDATE_TODO", async (id) => {
-//   const response = await axios.delete(`http://localhost:3001/todos/${id}`);
-//   return id;
-// });
+export const updateList = createAsyncThunk("UPDATE_TODO", async ({id, obj}) => {
+  const response = await axios.patch(`http://localhost:3001/todos/${id}`, obj);
+  return { id, obj }
+});
 
 
 
@@ -56,15 +56,23 @@ export const todosSlice = createSlice({
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     });
     builder.addCase(addList.fulfilled, (state, action) => { 
-      state.todos = [...state.todos, action.payload] 
+      state.todos = [...state.todos, action.payload];
+      console.log(state.todos);
     });
     builder.addCase(deleteList.fulfilled, (state, action) => {
       state.todos =  state.todos.filter((todo) => todo.id !== action.payload);
+      console.log(state.todos)
     });
-    // builder.addCase(deleteList.fulfilled, (state, action) => {
-    //   console.log(action.payload)
-    //   state.todos =  state.todos.filter((todo) => todo.id !== action.payload);
-    // });
+    builder.addCase(updateList.fulfilled, (state, action) => {
+      state.todos = state.todos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return { ...todo, content: action.payload.content, title: action.payload.title };
+        } else {
+          return todo;
+        }
+      })
+    }
+    );
   },
 });
 
