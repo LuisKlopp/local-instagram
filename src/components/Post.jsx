@@ -5,6 +5,7 @@ import { createGlobalStyle } from "styled-components";
 import { __getTodos, addList } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios";
+import main_logo from "../img/logo.png"
 
 const reducer = (state, action) => {
   return {
@@ -47,14 +48,8 @@ const Post = () => {
     <>
       <GlobalStyle />
       <StHeader>
-        <StSpan
-          onClick={() => {
-            navigate("/");
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          Logo
-        </StSpan>
+      <img src={main_logo} style={{marginLeft:"20px"}} onClick={() => {navigate("/")}}></img>
+      <Btn onClick={() => {navigate("/post")}}>Post</Btn>
       </StHeader>
       <StPostList>
         <StImgBox alt="이미지 업로드하세요~" src={fileImage} style={{ margin: "auto" }} />
@@ -126,9 +121,9 @@ const GlobalStyle = createGlobalStyle`
 const StHeader = styled.div`
   width: 100%;
   height: 8vh;
-  border: 2px solid black;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const StSpan = styled.span`
@@ -198,4 +193,15 @@ const StButtonDiv = styled.div`
   bottom: 0;
   display: flex;
   justify-content: space-around;
+`;
+
+const Btn = styled.label`
+    height: 22px;
+    padding: 6px 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3E3E3 100%);
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    margin-right: 20px;
+    font-weight: 600;
+    cursor: pointer;
 `;

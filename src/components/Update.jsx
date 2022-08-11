@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import { __getTodos, updateList } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from "react-router-dom";
+import { useBeforeunload } from "react-beforeunload";
+import main_logo from "../img/logo.png"
 
 const reducer = (state, action) => {
   return {
@@ -15,6 +17,7 @@ const reducer = (state, action) => {
 const Update = () => {
 
 
+  useBeforeunload(() => navigate("/"));
   const { isLoading, error, todos } = useSelector((state) => state.todos);
   const navigate = useNavigate();
   const logoImgInput = useRef();
@@ -46,6 +49,7 @@ const Update = () => {
     const obj = {
       title: title,
       content: content,
+      url: fileImage,
     };
     dispatch(updateList({id, obj}))
   };
@@ -70,15 +74,9 @@ const Update = () => {
     <>
       <GlobalStyle />
       <StHeader>
-        <StSpan
-          onClick={() => {
-            navigate("/");
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          Logo
-        </StSpan>
-      </StHeader>
+      <img src={main_logo} style={{marginLeft:"20px"}} onClick={() => {navigate("/")}}></img>
+      <Btn onClick={() => {navigate("/post")}}>Post</Btn>
+     </StHeader>
       <StPostList>
         <StImgBox alt="이미지 업로드하세요~" src={fileImage} style={{ margin: "auto" }} />
         <StDiv>
@@ -149,9 +147,9 @@ const GlobalStyle = createGlobalStyle`
 const StHeader = styled.div`
   width: 100%;
   height: 8vh;
-  border: 2px solid black;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const StSpan = styled.span`
@@ -230,3 +228,14 @@ const StWrapper = styled.div`
   justify-content: center;
   align-items: center;
   `;
+
+const Btn = styled.label`
+    height: 22px;
+    padding: 6px 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3E3E3 100%);
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    margin-right: 20px;
+    font-weight: 600;
+    cursor: pointer;
+`;

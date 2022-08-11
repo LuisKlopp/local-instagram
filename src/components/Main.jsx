@@ -6,6 +6,8 @@ import Card from "./Card"
 import { __getTodos } from "../store";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import axios from "axios"
+import main_logo from "../img/logo.png"
+
 
 
 
@@ -35,12 +37,11 @@ const Main = () => {
         <>
     <GlobalStyle/>
     <StHeader>
-      <StButton onClick={() => {navigate("/")}}>Logo</StButton>
-      <StButton onClick={() => {navigate("/post")}}>Post</StButton>
+      <img src={main_logo} style={{marginLeft:"20px"}} onClick={() => {navigate("/")}}></img>
+      <Btn onClick={() => {navigate("/post")}}>Post</Btn>
     </StHeader>
     <StMainList>
     {todos.map((todo) => {
-      console.log(todos)
       return <Card todo={todo} key={todo.id}/>
     })}
     </StMainList>
@@ -70,7 +71,6 @@ const GlobalStyle = createGlobalStyle`
 const StHeader = styled.div`
   width:100%;
   height:8vh;
-  border:2px solid black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,3 +104,14 @@ const StWrapper = styled.div`
   justify-content: center;
   align-items: center;
   `;
+
+const Btn = styled.label`
+    height: 22px;
+    padding: 6px 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3E3E3 100%);
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    margin-right: 20px;
+    font-weight: 600;
+    cursor: pointer;
+`;

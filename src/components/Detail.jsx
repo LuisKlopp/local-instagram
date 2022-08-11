@@ -35,8 +35,8 @@ const Detail = () => {
         <GlobalStyle />
         <StWrapper>
           <StItem>
-            <h1>{current_obj.title}</h1>
-            <h1>{current_obj.content}</h1>
+            <h1>title: {current_obj.title}</h1>
+            <h1>content: {current_obj.content}</h1>
             <Stbutton
               onClick={() => {navigate("/")
               }}style={{ cursor: "pointer" }}>
@@ -99,4 +99,15 @@ const Stbutton = styled.div`
   &:hover {
     background-color: #f2ae81;
   }
+`;
+
+const Btn = styled.label`
+    height: 22px;
+    padding: 6px 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3E3E3 100%);
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    margin-right: 20px;
+    font-weight: 600;
+    cursor: pointer;
 `;
